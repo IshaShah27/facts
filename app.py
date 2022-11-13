@@ -29,8 +29,12 @@ def mention_response(ack, payload, say):
     say(get_summary(search_term))
 
 @app.event("message")
-def handle_message_events(body, logger):
-    logger.info(body)
+def handle_message_events(logger, event, say):
+    # say(f"hey <@{event['user']}>")
+    # search_term = ' '.join(event['text'])
+    # say(f"you want to know something about {search_term}? i'll TELL you something about {search_term}")
+    # say(get_summary(search_term))
+    logger.info(event['text'])
 
 # Start app
 if __name__ == "__main__":

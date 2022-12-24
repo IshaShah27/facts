@@ -1,4 +1,6 @@
 import wikipedia
+import warnings
+warnings.simplefilter('ignore')
 
 # take in date of query
 # index the sentences that are returned based on time since that date
@@ -8,16 +10,20 @@ import wikipedia
 
 def get_summary(search_term):
 
+    if search_term=="":
+        return("how about you try a little something\n")
     try:
-        if search_term!="":
-            resp = wikipedia.summary(search_term) 
-        else:
-            resp="how about you try a little something"
+        resp = wikipedia.summary(search_term) 
     except wikipedia.exceptions.DisambiguationError as err:
         new_opts = err.options
-        resp=f"ok, so actually, '{err.title}' turns out not be a great search term. i'll cut you a deal. your new search term is '{new_opts[0]}'. and you're going to learn to live with it:\n"
+        resp=f"ok, so actually, '{err.title}' turns out not be a great search term. i'll cut you a deal. your new search term is '{new_opts[0]}'. and you're going to learn to live with it:\n\n"
         resp = resp + wikipedia.summary(new_opts[0])
     except wikipedia.exceptions.PageError:
-        resp="na man, that doesn't return any results. Try again brohannes gutenbro."
+        resp="na man, that doesn't return any results. try again brohannes gutenbro.\n"
     return resp
 
+if __name__ == "__main__":
+    # ask user for a search term
+    search_term = input("what is your search term pal?\n")
+    # get summary using that search term
+    print(get_summary(search_term))
